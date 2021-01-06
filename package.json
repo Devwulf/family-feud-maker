@@ -1,0 +1,40 @@
+{
+  "name": "family-feud-maker",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@types/jest": "^24.9.1",
+    "@types/node": "^12.19.12",
+    "@types/react": "^16.14.2",
+    "@types/react-dom": "^16.9.10",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-scripts": "4.0.1",
+    "typescript": "^3.9.7"
+  },
+  "scripts": {
+    "start": "npm run watch:css && react-scripts start",
+    "build": "npm run build:css && react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "build:css": "postcss src/assets/tailwind.css -o src/assets/main.css",
+    "watch:css": "postcss src/assets/tailwind.css -o src/assets/main.css",
+    "setup": "npm install tailwindcss@1.9.3 postcss-cli@8.1.0 autoprefixer@9.0.0 -D",
+    "eslint": ".\\node_modules\\.bin\\eslint --init"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
