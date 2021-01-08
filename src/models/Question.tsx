@@ -6,36 +6,40 @@ export type Answer = {
     score: number;
 }
 
-export default class Question {
-    public readonly id: string;
-    public description: string;
-    public answers: Answer[];
+export type Question = {
+    id: string;
+    description: string;
+    answers: Answer[];
+}
 
-    constructor(description: string) {
-        this.id = short.generate();
-        this.description = description || "Please set a question...";
-        this.answers = [];
+export class QuestionHelper {
+    static create(description: string): Question {
+        return {
+            id: short.generate(),
+            description: description || "Please set a question...",
+            answers: []
+        };
     }
 
-    setDescription(value: string): void {
+    static setDescription(question: Question, value: string): void {
         if (!value)
             return;
 
-        this.description = value;
+        question.description = value;
     }
 
-    getAnswer(id: string): Answer | undefined {
+    static getAnswer(question: Question, id: string): Answer | undefined {
         if (!id)
             return;
 
-        return this.answers.find(ans => ans.id === id);
+        return question.answers.find(ans => ans.id === id);
     }
 
-    getExactAnswerId(name: string): string | undefined {
+    static getExactAnswerId(question: Question, name: string): string | undefined {
         const paramName = name.toLowerCase().replace(/[^a-z0-9 ]/g, "");
 
-        for (let i = 0; i < this.answers.length; i++) {
-            const ans = this.answers[i];
+        for (let i = 0; i < question.answers.length; i++) {
+            const ans = question.answers[i];
             const ansName = ans.name.toLowerCase().replace(/[^a-z0-9 ]/g, "");
 
             if (ansName === paramName)
@@ -43,11 +47,11 @@ export default class Question {
         }
     }
 
-    getApproxAnswerId(name: string): string | undefined {
+    static getApproxAnswerId(question: Question, name: string): string | undefined {
         const paramName = name.toLowerCase().replace(/[^a-z0-9 ]/g, "");
 
-        for (let i = 0; i < this.answers.length; i++) {
-            const ans = this.answers[i];
+        for (let i = 0; i < question.answers.length; i++) {
+            const ans = question.answers[i];
             const ansName = ans.name.toLowerCase().replace(/[^a-z0-9 ]/g, "");
 
             if (ansName.includes(paramName))
@@ -55,8 +59,8 @@ export default class Question {
         }
     }
 
-    addAnswer(name: string, score: number): void {
-        const answerId = this.getExactAnswerId(name);
+    static addAnswer(question: Question, name: string, score: number): void {
+        const answerId = QuestionHelper.getExactAnswerId(question, name);
         if (answerId)
             return;
 
@@ -64,18 +68,18 @@ export default class Question {
             return;
 
         const newAnswer: Answer = {id: short.generate(), name, score};
-        this.answers.push(newAnswer);
-        this.answers.sort((a, b) => b.score - a.score);
+        question.answers.push(newAnswer);
+        question.answers.sort((a, b) => b.score - a.score);
     }
 
-    removeAnswer(id: string): void {
+    static removeAnswer(question: Question, id: string): void {
         if (!id)
             return;
 
-        for (let i = 0; i < this.answers.length; i++) {
-            const ans = this.answers[i];
+        for (let i = 0; i < question.answers.length; i++) {
+            const ans = question.answers[i];
             if (ans.id === id) {
-                this.answers.splice(i, 1);
+                question.answers.splice(i, 1);
                 break;
             }
         }

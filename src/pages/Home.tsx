@@ -1,11 +1,11 @@
 import React from "react";
 import CustomLink from "../components/CustomLink";
 
-export type HomeProps = {
+type HomeProps = {
 
 }
 
-export type HomeState = {
+type HomeState = {
 
 }
 

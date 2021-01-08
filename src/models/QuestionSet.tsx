@@ -1,5 +1,5 @@
 import short from "short-uuid";
-import Question from "./Question";
+import { Question } from "./Question";
 
 export default class QuestionSet {
     public readonly id: string;

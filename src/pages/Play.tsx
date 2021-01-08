@@ -1,10 +1,10 @@
 import React from "react";
 
-export type PlayProps = {
+type PlayProps = {
 
 }
 
-export type PlayState = {
+type PlayState = {
 
 }
 

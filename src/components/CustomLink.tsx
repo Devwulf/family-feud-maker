@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router";
 
-export interface CustomLinkProps extends React.HTMLAttributes<HTMLElement> {
+interface CustomLinkProps extends React.HTMLAttributes<HTMLElement> {
     to: string;
     children?: React.ReactNode;
 }
