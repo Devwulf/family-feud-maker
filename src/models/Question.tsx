@@ -72,6 +72,19 @@ export class QuestionHelper {
         question.answers.sort((a, b) => b.score - a.score);
     }
 
+    static editAnswer(question: Question, id: string, name: string, score: number): void {
+        if (!question || !id || !name || score <= 0)
+            return;
+
+        const answer = question.answers.find(answer => answer.id === id);
+        if (!answer)
+            return;
+
+        answer.name = name;
+        answer.score = score;
+        question.answers.sort((a, b) => b.score - a.score);
+    }
+
     static removeAnswer(question: Question, id: string): void {
         if (!id)
             return;

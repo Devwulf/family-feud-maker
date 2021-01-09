@@ -72,15 +72,15 @@ export default class Make extends React.Component<MakeProps, MakeState> {
 
         return (
             <div className="w-screen h-screen flex justify-center items-center">
-                <div className="px-4 py-2 w-1/2">
+                <div className="px-4 py-2 w-full lg:w-1/2">
                     <span className="mb-4 flex justify-center text-xl font-bold">Question Sets</span>
-                    <Scrollbar noScrollX style={{height: "calc(100vh - 4rem)"}}>
+                    <Scrollbar noScrollX style={{height: "calc(100vh - 8rem)"}}>
                         {sets.map((set, index) => (
                             <div key={index} className="mb-2">
                                 <QuestionSetMakeSlot id={set.id} name={set.name} onEditName={this.onEditQuestionSetName} onDeleteItem={this.onDeleteQuestionSet} />
                             </div>
                         ))}
-                        <AddItemSlot onAddItem={this.onAddQuestionSet} />
+                        <AddItemSlot label="Create a Question Set..." onAddItem={this.onAddQuestionSet} />
                     </Scrollbar>
                 </div>
             </div>

@@ -48,6 +48,9 @@ export default class EditQuestionSet extends React.Component<EditQuestionSetProp
     }
 
     async onAddQuestion(description: string): Promise<void> {
+        if (!description)
+            return;
+
         const { id } = this.props;
         const questionSet = await LocalDB.getQuestionSet(id);
         if (!questionSet)
@@ -59,6 +62,9 @@ export default class EditQuestionSet extends React.Component<EditQuestionSetProp
     }
 
     async onEditQuestionDescription(questionId: string, description: string): Promise<void> {
+        if (!questionId || !description)
+            return;
+
         const { id } = this.props;
         const questionSet = await LocalDB.getQuestionSet(id);
         if (!questionSet)
@@ -74,6 +80,9 @@ export default class EditQuestionSet extends React.Component<EditQuestionSetProp
     }
 
     async onDeleteQuestion(questionId: string): Promise<void> {
+        if (!questionId)
+            return;
+
         const { id } = this.props;
         const questionSet = await LocalDB.getQuestionSet(id);
         if (!questionSet)
@@ -85,19 +94,20 @@ export default class EditQuestionSet extends React.Component<EditQuestionSetProp
     }
 
     render(): JSX.Element {
+        const { id } = this.props;
         const { name, questions } = this.state;
 
         return (
             <div className="w-screen h-screen flex justify-center items-center">
-                <div className="px-4 py-2 w-1/2">
+                <div className="px-4 py-2 w-full lg:w-1/2">
                     <span className="mb-4 flex justify-center text-xl font-bold">{name}</span>
-                    <Scrollbar noScrollX style={{height: "calc(100vh - 4rem)"}}>
+                    <Scrollbar noScrollX style={{height: "calc(100vh - 8rem)"}}>
                         {questions.map((question, index) => (
                             <div key={index} className="mb-2">
-                                <QuestionMakeSlot id={question.id} description={question.description} onEditName={this.onEditQuestionDescription} onDeleteItem={this.onDeleteQuestion} />
+                                <QuestionMakeSlot setId={id} questionId={question.id} description={question.description} onEditName={this.onEditQuestionDescription} onDeleteItem={this.onDeleteQuestion} />
                             </div>
                         ))}
-                        <AddItemSlot onAddItem={this.onAddQuestion} />
+                        <AddItemSlot label="Add New Question..." onAddItem={this.onAddQuestion} />
                     </Scrollbar>
                 </div>
             </div>

@@ -1,23 +1,25 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 
-type AddItemSlotProps = {
+type AddAnswerSlotProps = {
     label: string;
-    onAddItem(name: string): Promise<void>;
+    onAddItem(name: string, value: number): Promise<void>;
 }
 
-type AddItemSlotState = {
+type AddAnswerSlotState = {
     isAdding: boolean;
     name: string;
+    value: number;
 }
 
-export default class AddItemSlot extends React.Component<AddItemSlotProps, AddItemSlotState> {
-    constructor(props: AddItemSlotProps) {
+export default class AddAnswerSlot extends React.Component<AddAnswerSlotProps, AddAnswerSlotState> {
+    constructor(props: AddAnswerSlotProps) {
         super(props);
 
         this.state = {
             isAdding: false,
-            name: ""
+            name: "",
+            value: 1
         };
 
         this.onAddItemStart = this.onAddItemStart.bind(this);
@@ -38,17 +40,17 @@ export default class AddItemSlot extends React.Component<AddItemSlotProps, AddIt
     async onAddItem(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): Promise<void> {
         event.stopPropagation();
         const { onAddItem: onAddItem } = this.props;
-        const { name } = this.state;
-        if (!name)
+        const { name, value } = this.state;
+        if (!name || !value)
             return;
         
-        await onAddItem(name);
-        this.setState({name: "", isAdding: false});
+        await onAddItem(name, value);
+        this.setState({name: "", value: 1, isAdding: false});
     }
 
     render(): JSX.Element {
         const { label } = this.props;
-        const { isAdding, name } = this.state;
+        const { isAdding, name, value } = this.state;
 
         return(
             <div className="transition duration-150 ease-in-out flex flex-row items-center justify-between mr-2 xl:mx-2 border-2 border-dashed rounded-lg border-indigo-700 bg-opacity-0 bg-indigo-700 text-indigo-300 hover:bg-opacity-100 hover:text-indigo-200 cursor-pointer"
@@ -64,20 +66,22 @@ export default class AddItemSlot extends React.Component<AddItemSlotProps, AddIt
                 ) || 
                 (isAdding && 
                     <div className="px-2 py-3 flex flex-row w-full">
-                        <input type="text" className="px-2 mr-1 w-full rounded bg-indigo-400 text-indigo-900" 
+                        <input type="text" className="px-2 mr-1 w-4/5 rounded bg-indigo-400 text-indigo-900" 
                             value={name} 
                             onClick={event => event.stopPropagation()}
                             onChange={event => this.setState({name: event.target.value})} />
-                        <div className="flex flex-row">
-                            <button className="transition duration-150 ease-in-out px-2 mr-1 flex items-center rounded hover:shadow-lg bg-indigo-800 text-indigo-300 hover:bg-indigo-900 hover:text-indigo-200" style={{paddingTop: "0.35rem", paddingBottom: "0.35rem"}}
-                                onClick={this.onAddItem}>
-                                <FontAwesomeIcon className="text-xs" icon="check" />
-                            </button>
-                            <button className="transition duration-150 ease-in-out px-2 flex items-center rounded hover:shadow-lg bg-indigo-800 text-indigo-300 hover:bg-indigo-900 hover:text-indigo-200"
-                                onClick={this.onAddItemStop}>
-                                <FontAwesomeIcon className="text-xs" icon="times" />
-                            </button>
-                        </div>
+                        <input type="number" className="px-2 mr-2 w-1/5 rounded bg-indigo-400 text-indigo-900 text-right" 
+                            value={value} 
+                            onClick={event => event.stopPropagation()}
+                            onChange={event => this.setState({value: parseInt(event.target.value)})} />
+                        <button className="transition duration-150 ease-in-out px-2 mr-1 flex items-center rounded hover:shadow-lg bg-indigo-800 text-indigo-300 hover:bg-indigo-900 hover:text-indigo-200" style={{paddingTop: "0.35rem", paddingBottom: "0.35rem"}}
+                            onClick={this.onAddItem}>
+                            <FontAwesomeIcon className="text-xs" icon="check" />
+                        </button>
+                        <button className="transition duration-150 ease-in-out px-2 flex items-center rounded hover:shadow-lg bg-indigo-800 text-indigo-300 hover:bg-indigo-900 hover:text-indigo-200"
+                            onClick={this.onAddItemStop}>
+                            <FontAwesomeIcon className="text-xs" icon="times" />
+                        </button>
                     </div>
                 )}
             </div>
